@@ -32,6 +32,49 @@ We exploit the fact that for married women, electoral rolls have the husband's n
 
     If no matches are found within the maximal Levenshtein distance, the script writes the wife id to file `state_name_no_match_found.csv`
 
+    **Usage**
+
+    Check out the usage information or help contents of `gapage.py` by command `gapage.py --help`. Requires `python-Levenshtein` library to be installed.
+
+    ```
+    $> cd /path/to/mining
+    $> ./gapage.py --help
+    usage: gapage.py [-h] [--ldcost LD_COST] [--version] [--releases] [FILE]
+
+    Find gaps between the ages of husband and wife using parsed Electoral Roll
+    data in CSV format created by "pdfparser" tool.
+
+    positional arguments:
+      FILE              a CSV file parsed by pdfparser
+
+    optional arguments:
+      -h, --help        show this help message and exit
+      --ldcost LD_COST  maximum Levenshtein distance cost accepted for matching
+                        husband name (default is 5)
+      --version         show program's version number and exit
+      --releases        display release notes and exit
+    ```
+
+    More help commands:
+
+    ```
+    # Check out current version
+    $> ./gapage.py --version
+
+    # Check out release notes of current version
+    $> ./gapage.py --releases
+    ```
+
+    Examples:
+
+    ```
+    # Find gaps of a state in CSV using default settings
+    $> ./gapage.py /path/to/electoral_rolls/state.csv
+
+    # Specify maximum Levenshtein distance cost for name searching
+    $> ./gapage.py /path/to/electoral_rolls/state.csv --ldcost 5
+    ```
+
 2. **Analyses**
 
 ### Data
