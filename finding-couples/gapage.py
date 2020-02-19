@@ -13,16 +13,22 @@ from libs import ElectoralCSV, write_csv, ElectoralFields
 APP_NAME = 'gapage'
 APP_PATH = os.path.dirname(__file__)
 APP_CMD = os.path.basename(__file__)
-APP_VERSION = 'v1.2'
+APP_VERSION = 'v1.3'
 APP_DESC = '''\
 Find gaps between the ages of husband and wife using parsed Electoral Roll data in CSV format created by "pdfparser" \
 tool.'''
 
-DATE_UPDATE = 'update: 03-May-2018'
+DATE_UPDATE = 'update: 19-Feb-2020'
 VERSION_INFO = '{} {} ({})'.format(APP_CMD, APP_VERSION, DATE_UPDATE)
 RELEASE_INFO = '''\
 Release Notes:
 --------------
+v1.3:
+  - Update output filename scheme
+  - Fix a few issues.
+  - Add option to +1 distance if husband name longer than 10
+  - Update to working with the only selected columns to reduce memory usage.
+
 v1.2:
   - Combined polling_station_name with household ID to be used as default searching key
   - Allowed custom of key combination via parameter --keys
@@ -35,11 +41,11 @@ v1.0:
   - Initial version
 '''
 
-OUTFILE_ONE = os.path.join(APP_PATH, 'output/{state}_one_match_%s.csv' % time.strftime('%Y%m%d-%H%M%S'))
-OUTFILE_MANY = os.path.join(APP_PATH, 'output/{state}_more_than_one_match_%s.csv' % time.strftime('%Y%m%d-%H%M%S'))
-OUTFILE_ZERO = os.path.join(APP_PATH, 'output/{state}_no_match_found_%s.csv' % time.strftime('%Y%m%d-%H%M%S'))
+OUTFILE_ONE = os.path.join(APP_PATH, 'output/{state}_exact_match_level_{lev}.csv')
+OUTFILE_MANY = os.path.join(APP_PATH, 'output/{state}_more_than_one_match_lev_{lev}.csv')
+OUTFILE_ZERO = os.path.join(APP_PATH, 'output/{state}_no_match_found_lev_{lev}.csv')
 
-DEFAULT_LD_COST = 5
+DEFAULT_LD_COST = 0
 DEFAULT_KEY_COMBINED = 'polling_station_name'
 
 OutputRow = namedtuple(
@@ -75,6 +81,9 @@ used to combine with household ID in order to form a uniqueness of houses search
 combination. Values for this param can be multiple and separated by space. Remember: should not include "house_no" \
 because it\'s already included by default' % DEFAULT_KEY_COMBINED)
 
+    parser.add_argument('--extra-ld', action='store_true', default=False, help='+1 Levenshtein \
+distance if husband name length longer than 10')
+
     parser.add_argument('--version', action='version', version=VERSION_INFO)
 
     parser.add_argument('--releases', action='store_true', default=False, help='display release notes and exit')
@@ -90,7 +99,7 @@ because it\'s already included by default' % DEFAULT_KEY_COMBINED)
         parser.error('the following arguments are required: FILE')
     else:
         if os.path.isfile(args.file):
-            if args.file[-3:] not in ('csv', 'CSV'):
+            if args.file[-3:].lower() not in ('csv'):
                 parser.error('Not a CSV file: %s' % args.file)
         else:
             parser.error('FILE does not exist: %s' % args.file)
@@ -141,7 +150,6 @@ def main():
     )
     time.sleep(.2)
     print('* Found %d household IDs' % len(houses))
-
     time.sleep(.2)
     print('* Finding couples...')
 
@@ -156,12 +164,15 @@ def main():
             if len(men_in_house) == 0:
                 # print('Zero match: %s, None' % wife.elector_name)
                 orphans.append((wife, None))
-                break
+                continue
 
             husband_name = wife.father_or_husband_name.lower().strip()
             ld = ((m, distance(husband_name, m.elector_name.lower().strip())) for m in men_in_house)
-            candidates = sorted((i for i in ld if i[1] <= args.ldcost), key=itemgetter(1))
 
+            cost = args.ldcost
+            if args.extra_ld and len(husband_name) > 10:
+                cost += 1
+            candidates = sorted((i for i in ld if i[1] <= cost), key=itemgetter(1))
             # Found candidates
             if candidates:
                 # Only one candidate found
@@ -191,7 +202,7 @@ def main():
     print('* Writing output...')
     for data, file in [(couples, OUTFILE_ONE), (dup_couples, OUTFILE_MANY), (orphans, OUTFILE_ZERO)]:
         if data:
-            file = file.format(state=parsed.state.replace(' ', '_'))
+            file = file.format(state=parsed.state.replace(' ', '_'), lev=args.ldcost)
             write_couples(file, data)
             time.sleep(.2)
             print('  --> %s' % file)
