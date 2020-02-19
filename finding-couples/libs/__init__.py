@@ -6,16 +6,14 @@ __all__ = ['ElectoralFields', 'ElectoralCSV', 'ElectoralRow', 'read_csv', 'write
 
 ElectoralFields = namedtuple(
     'ElectoralFields',
-    'number id elector_name father_or_husband_name has_husband house_no age sex ac_name parl_constituency part_no year \
-state filename main_town police_station mandal revenue_division district pin_code polling_station_name \
-polling_station_address net_electors_male net_electors_female net_electors_third_gender net_electors_total change'
+    'id elector_name father_or_husband_name has_husband house_no age sex year \
+polling_station_name change state'
 )
 
 
 class ElectoralRow:
     bool_fields = ('has_husband',)
-    num_fields = ('number', 'age', 'year', 'net_electors_male', 'net_electors_female', 'net_electors_third_gender',
-                  'net_electors_total')
+    num_fields = ('age', 'year')
     gender_field = 'sex'
 
     def __init__(self, row):
