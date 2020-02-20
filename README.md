@@ -1,4 +1,4 @@
-## Spouse Spousal Age Gap
+## Older Half: Spousal Age Gap
 
 Using the Indian electoral roll data, we estimate gap between the ages of husband and wife, and how the age difference varies across states, and by the age of husband and wife. 
 
