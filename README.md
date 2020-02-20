@@ -16,7 +16,7 @@ We exploit the fact that for married women, electoral rolls have the husband's n
 
 1. **Finding Couples**
     
-    [gap_age.py](gap_age.py) takes path to CSV (output from pdfparser), maximum Levenshtein string distance (if 0, then only exact matching is done) and outputs a CSV with the following fields: ```household_id, wife_id, wife_name, wife_age, husband_name, husband_id, husband name, husband_age, state, electoral_roll_year``` Each couple is a separate row.
+    [gap_age.py](spousal_age_gap/finding-couples/gapage.py) takes path to CSV (output from pdfparser), maximum Levenshtein string distance (if 0, then only exact matching is done) and outputs a CSV with the following fields: ```household_id, wife_id, wife_name, wife_age, husband_name, husband_id, husband name, husband_age, state, electoral_roll_year``` Each couple is a separate row.
 
     **Functionality**
 
