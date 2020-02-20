@@ -77,7 +77,7 @@ We exploit the fact that for married women, electoral rolls have the husband's n
 
 The parsed electoral rolls can be found [here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MUEGDT). 
 
-Our final state-wise datasets with the the following fields are posted [here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MUEGDT). Each state folder has 6 files---3 exact match files, `state_name_couples_exact_match_lev_0.csv`,  `state_name_more_than_one_match_lev_0.csv`, `state_name_no_match_found_lev_0.csv` and 3 files for Levenshtein distance of 1 (with lev_1 suffix).
+Our final state-wise datasets with the the following fields are posted [here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/GFSVY8). Each state folder has 6 files---3 exact match files, `state_name_couples_exact_match_lev_0.csv`,  `state_name_more_than_one_match_lev_0.csv`, `state_name_no_match_found_lev_0.csv` and 3 files for Levenshtein distance of 1 (with lev_1 suffix).
 
 ### Authors
 
