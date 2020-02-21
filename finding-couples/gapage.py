@@ -2,7 +2,6 @@
 
 import os
 import sys
-import time
 from argparse import ArgumentParser
 from collections import namedtuple
 from operator import itemgetter
@@ -141,15 +140,12 @@ def main():
     print('Reading %s...' % args.file)
     parsed = ElectoralCSV(args.file)
     print('* There are %s rows in file' % len(parsed))
-    time.sleep(.2)
     print('* Found state: %s (year: %s)' % (parsed.state, parsed.year))
 
     houses = parsed.get_consecutive_groups(
         bykey='house_no'
     )
-    time.sleep(.2)
     print('* Found %d household IDs' % len(houses))
-    time.sleep(.2)
     print('* Finding couples...')
 
     couples = []
@@ -203,7 +199,6 @@ def main():
         if data:
             file = file.format(state=parsed.state.replace(' ', '_'), lev=args.ldcost)
             write_couples(file, data)
-            time.sleep(.2)
             print('  --> %s' % file)
 
 
