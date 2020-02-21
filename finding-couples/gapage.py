@@ -12,16 +12,20 @@ from libs import ElectoralCSV, write_csv, ElectoralFields
 APP_NAME = 'gapage'
 APP_PATH = os.path.dirname(__file__)
 APP_CMD = os.path.basename(__file__)
-APP_VERSION = 'v1.3'
+APP_VERSION = 'v1.4'
 APP_DESC = '''\
 Find gaps between the ages of husband and wife using parsed Electoral Roll data in CSV format created by "pdfparser" \
 tool.'''
 
-DATE_UPDATE = 'update: 19-Feb-2020'
+DATE_UPDATE = 'update: 21-Feb-2020'
 VERSION_INFO = '{} {} ({})'.format(APP_CMD, APP_VERSION, DATE_UPDATE)
 RELEASE_INFO = '''\
 Release Notes:
 --------------
+v1.4:
+  - Switch to using groupby consecutive house_no as the household_id instead
+    combine keys with polling_station_name
+  - Drop option --keys, no longer use it.
 v1.3:
   - Update output filename scheme
   - Fix a few issues.
@@ -45,26 +49,11 @@ OUTFILE_MANY = os.path.join(APP_PATH, 'output/{state}_more_than_one_match_lev_{l
 OUTFILE_ZERO = os.path.join(APP_PATH, 'output/{state}_no_match_found_lev_{lev}.csv')
 
 DEFAULT_LD_COST = 0
-DEFAULT_KEY_COMBINED = 'polling_station_name'
 
 OutputRow = namedtuple(
     'OutputRow',
     'household_id wife_id wife_name wife_age husband_id husband_name husband_age state electoral_roll_year polling_station_name'
 )
-
-
-def getkey(obj, fields):
-    key = ''
-    for fld in fields:
-        if key:
-            key = '%s:%s' % (key, getattr(obj, fld))
-        else:
-            key = getattr(obj, fld)
-    if key:
-        key = '%s:%s' % (key, getattr(obj, 'house_no'))
-    else:
-        key = getattr(obj, 'house_no')
-    return key
 
 
 def get_args(*params):
@@ -74,11 +63,6 @@ def get_args(*params):
 
     parser.add_argument('--ldcost', metavar='LD_COST', type=int, default=DEFAULT_LD_COST, help='maximum Levenshtein \
 distance cost accepted for matching husband name (default is %d)' % DEFAULT_LD_COST)
-
-    parser.add_argument('--keys', metavar='KEY', nargs='+', default=[DEFAULT_KEY_COMBINED], help='list of keys will be \
-used to combine with household ID in order to form a uniqueness of houses searching (by default, "%s" is used for key \
-combination. Values for this param can be multiple and separated by space. Remember: should not include "house_no" \
-because it\'s already included by default' % DEFAULT_KEY_COMBINED)
 
     parser.add_argument('--extra-ld', action='store_true', default=False, help='+1 Levenshtein \
 distance if husband name length longer than 10')
@@ -106,11 +90,6 @@ distance if husband name length longer than 10')
     # Check ldcost input
     if args.ldcost < 0:
         parser.error('LD_COST must be greater than or equal to zero')
-
-    # Check keys combination
-    if args.keys:
-        if not set(args.keys).issubset(set(ElectoralFields._fields)):
-            parser.error('KEYs are unknown: %s' % ', '.join(set(args.keys) - set(ElectoralFields._fields)))
 
     return args
 
