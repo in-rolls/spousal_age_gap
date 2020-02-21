@@ -1,16 +1,12 @@
-## Spousal Age Gap
+## Older Half: Spousal Age Gap
 
 Using the Indian electoral roll data, we estimate gap between the ages of husband and wife, and how the age difference varies across states, and by the age of husband and wife. 
 
 On average, the husbands are XX years older than their wives. The difference is highly variable and systematically varies across states and by age of the husband and wife. The age gap is larger for older husbands.
 
-* [Research Design](#)
-* [Script for Finding Couples]()
-* [Data](data/)
-* [Analyses]()
-    - [] and []
-    - 
----
+* [Research design](#research-design)
+* [Scripts for finding couples and analysis](#scripts)
+* [Underlying data that can be downloaded](#data)
 
 ### Research Design
 
@@ -20,7 +16,7 @@ We exploit the fact that for married women, electoral rolls have the husband's n
 
 1. **Finding Couples**
     
-    [gap_age.py](gap_age.py) takes path to CSV (output from pdfparser), maximum Levenshtein string distance (if 0, then only exact matching is done) and outputs a CSV with the following fields: ```household_id, wife_id, wife_name, wife_age, husband_name, husband_id, husband name, husband_age, state, electoral_roll_year``` Each couple is a separate row.
+    [gap_age.py](spousal_age_gap/finding-couples/gapage.py) takes path to CSV (output from pdfparser), maximum Levenshtein string distance (if 0, then only exact matching is done) and outputs a CSV with the following fields: ```household_id, wife_id, wife_name, wife_age, husband_name, husband_id, husband name, husband_age, state, electoral_roll_year``` Each couple is a separate row.
 
     **Functionality**
 
@@ -81,5 +77,8 @@ We exploit the fact that for married women, electoral rolls have the husband's n
 
 The parsed electoral rolls can be found [here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MUEGDT). 
 
-Our final state-wise datasets with the the following fields are posted [here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MUEGDT). Each state folder has 6 files---3 exact match files, `state_name_couples_exact_match_lev_0.csv`,  `state_name_more_than_one_match_lev_0.csv`, `state_name_no_match_found_lev_0.csv` and 3 files for Levenshtein distance of 1 (with lev_1 suffix).
+Our final state-wise datasets with the the following fields are posted [here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/GFSVY8). Each state folder has 6 files---3 exact match files, `state_name_couples_exact_match_lev_0.csv`,  `state_name_more_than_one_match_lev_0.csv`, `state_name_no_match_found_lev_0.csv` and 3 files for Levenshtein distance of 1 (with lev_1 suffix).
 
+### Authors
+
+Suriyan Laohaprapanon and Gaurav Sood
