@@ -44,7 +44,7 @@ v1.0:
   - Initial version
 '''
 
-OUTFILE_ONE = os.path.join(APP_PATH, 'output/{state}_exact_match_level_{lev}.csv')
+OUTFILE_ONE = os.path.join(APP_PATH, 'output/{state}_exact_match_lev_{lev}.csv')
 OUTFILE_MANY = os.path.join(APP_PATH, 'output/{state}_more_than_one_match_lev_{lev}.csv')
 OUTFILE_ZERO = os.path.join(APP_PATH, 'output/{state}_no_match_found_lev_{lev}.csv')
 
