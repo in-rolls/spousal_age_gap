@@ -118,13 +118,13 @@ distance if husband name length longer than 10')
 
 def write_couples(file, couples):
     output = []
-    for wife, husband in couples:
+    for house, wife, husband in couples:
         if husband is None:
             kwargs = dict(husband_id='', husband_name='', husband_age='')
         else:
             kwargs = dict(husband_id=husband.id, husband_name=husband.elector_name, husband_age=husband.age)
         output.append(OutputRow(
-            household_id=wife.house_no,
+            household_id=house,
             wife_id=wife.id,
             wife_name=wife.elector_name,
             wife_age=wife.age,
@@ -162,7 +162,7 @@ def main():
         for wife in wives:
             if len(men_in_house) == 0:
                 # print('Zero match: %s, None' % wife.elector_name)
-                orphans.append((wife, None))
+                orphans.append((house, wife, None))
                 continue
 
             husband_name = wife.father_or_husband_name.lower().strip()
@@ -177,23 +177,23 @@ def main():
                 # Only one candidate found
                 if len(candidates) == 1:
                     # print('One match: %s, %s' % (wife.elector_name, candidates[0][0].elector_name))
-                    couples.append((wife, candidates[0][0]))
+                    couples.append((house, wife, candidates[0][0]))
                 # Many candidates found
                 else:
                     lowest_cost = candidates[0][1]
                     lowest_cost_men = [i[0] for i in candidates if i[1] == lowest_cost]
                     if len(lowest_cost_men) == 1:
                         # print('One match: %s, %s' % (wife.elector_name, lowest_cost_men[0].elector_name))
-                        couples.append((wife, lowest_cost_men[0]))
+                        couples.append((house, wife, lowest_cost_men[0]))
                     else:
                         for man in lowest_cost_men:
                             # print('Many match: %s, %s' % (wife.elector_name, man.elector_name))
-                            dup_couples.append((wife, man))
+                            dup_couples.append((house, wife, man))
 
             # No candidate found
             else:
                 # print('Zero match: %s, None' % wife.elector_name)
-                orphans.append((wife, None))
+                orphans.append((house, wife, None))
 
     print('  --> Found {} couples, {} more-than-one-match couples, {} unmatched wives'.format(
         len(couples), len(dup_couples), len(orphans)))
