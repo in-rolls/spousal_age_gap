@@ -144,9 +144,8 @@ def main():
     time.sleep(.2)
     print('* Found state: %s (year: %s)' % (parsed.state, parsed.year))
 
-    houses = parsed.getdict(
-        bykey=partial(getkey, fields=args.keys),
-        normalize=lambda x: x.lower().strip().replace(' ', '_')
+    houses = parsed.get_consecutive_groups(
+        bykey='house_no'
     )
     time.sleep(.2)
     print('* Found %d household IDs' % len(houses))

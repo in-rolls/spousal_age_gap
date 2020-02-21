@@ -1,5 +1,6 @@
 import csv
 from collections import namedtuple, defaultdict
+import itertools
 
 __all__ = ['ElectoralFields', 'ElectoralCSV', 'ElectoralRow', 'read_csv', 'write_csv']
 
@@ -93,6 +94,9 @@ class ElectoralCSV:
     def len_unique_rows(self):
         return len(list(self.unique_rows()))
 
+    def valid_rows(self):
+        return (item for item in self if (item.change != 'deleted') and (item.house_no != ''))
+
     def getdict(self, bykey, group=True, normalize=None):
         if group:
             ret = defaultdict(list)
@@ -106,6 +110,12 @@ class ElectoralCSV:
         assert callable(normalize)
         for row in self.unique_rows():
             setter(normalize(getkey(row)), row)
+        return ret
+
+    def get_consecutive_groups(self, bykey):
+        ret = {}
+        for id, (key, group) in enumerate(itertools.groupby(self.valid_rows(), lambda x: getattr(x, bykey))):
+            ret['%d:%s' % (id, key)] = list(group)
         return ret
 
     def __len__(self):
