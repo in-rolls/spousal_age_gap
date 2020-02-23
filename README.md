@@ -2,10 +2,12 @@
 
 Using the Indian electoral roll data, we estimate gap between the ages of husband and wife, and how the age difference varies across states, and by the age of husband and wife. 
 
-On average, the husbands are XX years older than their wives. The difference is highly variable and systematically varies across states and by age of the husband and wife. The age gap is larger for older husbands.
+In particular, we use data from the following states and union territorries: andaman and nicobar, andhra pradesh, arunachal pradesh, dadra and nagar haveli, daman and diu, goa, jammu and kashmir, manipur, meghalaya, mizoram, nagaland, and puducherry.
+
+The median age gap between the couple is 5 years, with husbands generally older than their wives. This compares with [about 2.3 years in the US (538, CPS data)](https://fivethirtyeight.com/features/whats-the-average-age-difference-in-a-couple/). The 25th percentile is 2 years. The difference varies systematically varies across states, with the median gap of about 3 years in jammu and kashmir, 4 years in manipur, mizoram, and dadra and nagar haveli, and 6 years in puducherry and andaman and nicobar islands. The spread also varies by husband and wife age. The age gap is larger for older husbands.
 
 * [Research design](#research-design)
-* [Scripts for finding couples and analysis](#scripts)
+* [Scripts for finding couples and python notebook for the analysis](#scripts)
 * [Underlying data that can be downloaded](#data)
 
 ### Research Design
