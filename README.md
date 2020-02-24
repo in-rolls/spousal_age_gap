@@ -2,12 +2,14 @@
 
 Using the Indian electoral roll data, we estimate gap between the ages of husband and wife, and how the age difference varies across states, and by the age of husband and wife. In particular, we use data from the following states and union territorries: Andaman and Nicobar, Andhra Pradesh, Arunachal Pradesh, Dadra and Nagar Haveli, Daman and Diu, Goa, Jammu and Kashmir, Manipur, Meghalaya, Mizoram, Nagaland, and Puducherry.
 
-The average age gap between the couple is 5.5 years (the median is 5 and the 25th percentile is 2 years), with husbands generally older than their wives. The gap is more than double in the US, where the [average gap is 2.3 (538, CPS data)](https://fivethirtyeight.com/features/whats-the-average-age-difference-in-a-couple/). Compared to the US, where in 64% of the couples the man is older, in India, in XX% of couples, the man is older. 
+The average age gap between the couple is 5.5 years (the median is 5 and the 25th percentile is 2 years), with husbands generally older than their wives. The gap is more than double in the US, where the [average gap is 2.3 (538, CPS data)](https://fivethirtyeight.com/features/whats-the-average-age-difference-in-a-couple/). Compared to the US, where in 64% of the couples the man is older, in India, in ~90% of couples, the man is older.
 
 The age gap between the spouses varies across states, with the median gap of about 3 years in jammu and kashmir, 4 years in Manipur, Mizoram, and Dadra and Nagar Haveli, and 6 years in Puducherry and Andaman and Nicobar Islands. The spread also varies by husband and wife age with the age gap being larger for older husbands.
 
 * [Research design](#research-design)
 * [Scripts for finding couples and python notebook for the analysis](#scripts)
+    - [Finding Couples](#finding-couples)
+    - [Analysis](#analysis)
 * [Underlying data that can be downloaded](#data)
 
 ### Research Design
@@ -16,7 +18,7 @@ We exploit the fact that for married women, electoral rolls have the husband's n
 
 ### Scripts
 
-1. **Finding Couples**
+#### Finding Couples
     
     [gap_age.py](spousal_age_gap/finding-couples/gapage.py) takes path to CSV (output from pdfparser), maximum Levenshtein string distance (if 0, then only exact matching is done) and outputs a CSV with the following fields: ```household_id, wife_id, wife_name, wife_age, husband_name, husband_id, husband name, husband_age, state, electoral_roll_year``` Each couple is a separate row.
 
@@ -73,7 +75,13 @@ We exploit the fact that for married women, electoral rolls have the husband's n
     $> ./gapage.py /path/to/electoral_rolls/state.csv --ldcost 5
     ```
 
-2. **Analyses**
+#### Analyses
+
+* [Download Electoral Rolls](notebooks/01_download_in_rolls_age_gap.ipynb)
+* [Prepare](notebooks/02_prepare_in_rolls_age_gap.ipynb)
+* [Upload data to Dataverse](notebooks/03_upload_age_gap_dataverse.ipynb)
+* [Analysis](notebooks/04_spousal_age_gap_analysis.ipynb)
+    - To see plotly plots, check [this](https://nbviewer.jupyter.org/github/soodoku/spousal_age_gap/blob/master/notebooks/04_spousal_age_gap_analysis.ipynb)
 
 ### Data
 
