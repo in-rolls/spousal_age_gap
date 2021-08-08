@@ -1,6 +1,7 @@
 import csv
 from collections import namedtuple, defaultdict
 import itertools
+import gzip
 
 __all__ = ['ElectoralFields', 'ElectoralCSV', 'ElectoralRow', 'read_csv', 'write_csv']
 
@@ -48,7 +49,7 @@ class ElectoralRow:
 
 
 def read_csv(file, get_header=False, row_parser=None, match_header=None):
-    with open(file, newline='') as fp:
+    with [gzip.open, open][0 if file.endswith('.gz') else 1](file, 'rt', newline='') as fp:
         rows = []
         data = csv.reader(fp, delimiter=',', quotechar='"')
         header = None
@@ -73,7 +74,7 @@ def read_csv(file, get_header=False, row_parser=None, match_header=None):
 def write_csv(file, rows, header=None):
     if header is not None:
         rows = [header] + rows
-    with open(file, 'w', newline='') as fp:
+    with [gzip.open, open][0 if file.endswith('.gz') else 1](file, 'wt', newline='') as fp:
         writer = csv.writer(fp, delimiter=',', quotechar='"')
         writer.writerows(rows)
 

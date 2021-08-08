@@ -71,6 +71,8 @@ distance if husband name length longer than 10')
 
     parser.add_argument('--releases', action='store_true', default=False, help='display release notes and exit')
 
+    parser.add_argument('--gzip', action='store_true', default=False, help='Save output files in gzip compressed formate')
+
     args = parser.parse_args(*params)
 
     # Return releases info
@@ -82,7 +84,7 @@ distance if husband name length longer than 10')
         parser.error('the following arguments are required: FILE')
     else:
         if os.path.isfile(args.file):
-            if args.file[-3:].lower() not in ('csv'):
+            if args.file[-3:].lower() not in ('csv', '.gz'):
                 parser.error('Not a CSV file: %s' % args.file)
         else:
             parser.error('FILE does not exist: %s' % args.file)
@@ -177,6 +179,8 @@ def main():
     for data, file in [(couples, OUTFILE_ONE), (dup_couples, OUTFILE_MANY), (orphans, OUTFILE_ZERO)]:
         if data:
             file = file.format(state=parsed.state.replace(' ', '_'), lev=args.ldcost)
+            if args.gzip:
+                file = file + '.gz'
             write_couples(file, data)
             print('  --> %s' % file)
 
