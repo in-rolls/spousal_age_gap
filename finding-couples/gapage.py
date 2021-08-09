@@ -12,16 +12,18 @@ from libs import ElectoralCSV, write_csv, ElectoralFields
 APP_NAME = 'gapage'
 APP_PATH = os.path.dirname(__file__)
 APP_CMD = os.path.basename(__file__)
-APP_VERSION = 'v1.4'
+APP_VERSION = 'v1.5'
 APP_DESC = '''\
 Find gaps between the ages of husband and wife using parsed Electoral Roll data in CSV format created by "pdfparser" \
 tool.'''
 
-DATE_UPDATE = 'update: 21-Feb-2020'
+DATE_UPDATE = 'update: 8-Aug-2021'
 VERSION_INFO = '{} {} ({})'.format(APP_CMD, APP_VERSION, DATE_UPDATE)
 RELEASE_INFO = '''\
 Release Notes:
 --------------
+v1.5:
+  - Add support gzip format for both input/output file.
 v1.4:
   - Switch to using groupby consecutive house_no as the household_id instead
     combine keys with polling_station_name
