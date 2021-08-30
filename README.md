@@ -68,7 +68,7 @@ python gapage.py /path/to/electoral_rolls/state.csv
 python gapage.py /path/to/electoral_rolls/state.csv --ldcost 1
 ```
 
-#### Pipeline
+#### Analysis
 
 * [Download Electoral Rolls](notebooks/01_download_in_rolls_age_gap.ipynb)
 * [Prepare](notebooks/02_prepare_in_rolls_age_gap_v2.ipynb)
