@@ -2,9 +2,9 @@
 
 Using the Indian electoral roll data, we estimate the age difference between the spouses. We also estimate how the age difference varies across states and by the age of the husband and the wife. In particular, we use data from nearly 70M couples from 31 states and union territories: Andaman and Nicobar Islands, Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chandigarh, Dadra, Daman, Delhi, Goa, Gujarat, Haryana, Himachal Pradesh, Jammu and Kashmir, Jharkhand, Karnataka, Kerala, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha, Puducherry, Punjab, Rajasthan, Sikkim, Tripura, Uttar Pradesh, and Uttaranchal.
 
-The [average age gap between the couple is 4.1 years (the median is three and the 25th percentile is two years)](https://github.com/soodoku/spousal_age_gap/blob/master/notebooks/04_spousal_age_gap_analysis.ipynb), with husbands generally older than their wives. The gap is nearly 80% larger than the US, where the [average gap is 2.3 (538, CPS data)](https://fivethirtyeight.com/features/whats-the-average-age-difference-in-a-couple/). Compared to the US, where the man is older in 64% of the heterosexual couples, in India, the man is older in nearly 90% of the couples.
+The [average age gap between a (heterosexual) couple is 4.1 years (the median is three and the 25th percentile is two years)](notebooks/04_spousal_age_gap_analysis.ipynb), with husbands generally older than their wives. The gap is nearly 80% larger than the US, where the [average gap is 2.3 (538, CPS data)](https://fivethirtyeight.com/features/whats-the-average-age-difference-in-a-couple/). Compared to the US, where the man is older 64% of the times, in India, the man is older nearly 90% of the times.
 
-The age gap between the spouses varies across states, with a median gap of about three years in Bihar, Dadra and Nagar Haveli, Gujarat, Jammu and Kashmir, Mizoram, Madhya Pradesh, Punjab, Rajasthan, Sikkim, and UP, and eight years in Assam. The spread also varies by husband and wife age, with the age gap being larger for older husbands.
+The age gap between the spouses varies across states, with a median gap of about three years in Bihar, Dadra and Nagar Haveli, Gujarat, Haryana, Jammu and Kashmir, Mizoram, Madhya Pradesh, Punjab, Rajasthan, Sikkim, and UP, and eight years in Assam. The spread also varies by husband and wife age, with the age gap being larger for older husbands.
 
 * [Research design](#research-design)
 * [Scripts for finding couples and python notebook for the analysis](#scripts)
@@ -14,7 +14,7 @@ The age gap between the spouses varies across states, with a median gap of about
 
 ### Research Design
 
-We exploit the fact that for married women, electoral rolls have the husband's name. The basic analysis is as follows: within each household, we find all married couples (where both the spouses are alive). For each married couple, we calculate the difference between their average. Our final dataset has the following fields: `husband_age, wife_age, household_id, state, electoral_roll_year.` We next normalize ages so that all ages are using the current year as 2017. Next, we do a density plot of the differences, and present mean, median, and standard deviation. Next, we check whether the difference is statistically significant from 0. Next, we present boxplots by state. And lastly, we plot differences as a function of the age of husband and wife. 
+We exploit the fact that for married women, electoral rolls have the husband's name. Within each household, we find all married couples (where both the spouses are alive). (We try both an exact match on the name and with a Levenshtein distance of one.) For each married couple, we calculate the difference between their average. Our final dataset has the following fields: `husband_age, wife_age, household_id, state, electoral_roll_year.` Next, to account for the fact that not all electoral rolls are from the same year---they are from adjacent years---we normalize age so that it reflects what their age would be in 2017. Next, we `describe` the differences, and present mean, median, standard deviation, etc. Next, we check how often the difference is greater than 0. Next, we present boxplots by state. And lastly, we plot differences as a function of the age of husband and wife (by state). 
 
 ### Scripts
 
@@ -68,13 +68,16 @@ python gapage.py /path/to/electoral_rolls/state.csv
 python gapage.py /path/to/electoral_rolls/state.csv --ldcost 1
 ```
 
-#### Analyses
+#### Pipeline
 
 * [Download Electoral Rolls](notebooks/01_download_in_rolls_age_gap.ipynb)
-* [Prepare](notebooks/02_prepare_in_rolls_age_gap.ipynb)
+* [Prepare](notebooks/02_prepare_in_rolls_age_gap_v2.ipynb)
 * [Upload data to Dataverse](notebooks/03_upload_age_gap_dataverse.ipynb)
-* [Analysis](notebooks/04_spousal_age_gap_analysis.ipynb)
-    - To see plotly plots, check [this](https://nbviewer.jupyter.org/github/soodoku/spousal_age_gap/blob/master/notebooks/04_spousal_age_gap_analysis.ipynb)
+* Analysis
+  * [Levenshtein Distance 1. Population.](notebooks/04_spousal_age_gap_analysis-lev-1-sol1.ipynb)
+  * [Levenshtein Distance 1. Stratified Random Sample (to enable plotly graphs).](https://nbviewer.jupyter.org/github/soodoku/spousal_age_gap/blob/master/notebooks/04_spousal_age_gap_analysis-lev-1-sol2.ipynb)
+  * [Levenshtein Distance 0 or exact match. Population.](notebooks/04_spousal_age_gap_analysis-sol1.ipynb)
+  * [Levenshtein Distance 0 or exact match. Stratified Random Sample (to enable plotly graphs).](https://nbviewer.jupyter.org/github/soodoku/spousal_age_gap/blob/master/notebooks/04_spousal_age_gap_analysis-sol2.ipynb)
 
 ### Data
 
