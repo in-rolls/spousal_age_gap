@@ -9,7 +9,7 @@ The age gap between the spouses varies across states, with a median gap of about
 * [Research design](#research-design)
 * [Scripts for finding couples and python notebook for the analysis](#scripts)
     - [Finding Couples](#finding-couples)
-    - [Analysis](#analyses)
+    - [Analysis](#analysis)
 * [Underlying data that can be downloaded](#data)
 
 ### Research Design
