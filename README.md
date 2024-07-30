@@ -2,7 +2,7 @@
 
 Using the Indian electoral roll data, we estimate the age difference between the spouses. We also estimate how the age difference varies across states and by the age of the husband and the wife. In particular, we use data from nearly 70M couples from 31 states and union territories: Andaman and Nicobar Islands, Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chandigarh, Dadra, Daman, Delhi, Goa, Gujarat, Haryana, Himachal Pradesh, Jammu and Kashmir, Jharkhand, Karnataka, Kerala, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha, Puducherry, Punjab, Rajasthan, Sikkim, Tripura, Uttar Pradesh, and Uttaranchal.
 
-The [average age gap between a (heterosexual) couple is 4.1 years (the median is three and the 25th percentile is two years)](notebooks/04_spousal_age_gap_analysis.ipynb), with husbands generally older than their wives. The gap is nearly 80% larger than the US, where the [average gap is 2.3 (538, CPS data)](https://fivethirtyeight.com/features/whats-the-average-age-difference-in-a-couple/). Compared to the US, where the man is older 64% of the times, in India, the man is older nearly 90% of the times.
+The [average age gap between a (heterosexual) couple is 4.1 years (the median is three and the 25th percentile is two years)](notebooks/04_spousal_age_gap_analysis.ipynb), with husbands generally older than their wives. The gap is nearly 80% larger than in the US, where the [average gap is 2.3 (538, CPS data)](https://fivethirtyeight.com/features/whats-the-average-age-difference-in-a-couple/). Compared to the US, where the man is older 64% of the time, in India, the man is older nearly 90% of the time.
 
 The age gap between the spouses varies across states, with a median gap of about three years in Bihar, Dadra and Nagar Haveli, Gujarat, Haryana, Jammu and Kashmir, Mizoram, Madhya Pradesh, Punjab, Rajasthan, Sikkim, and UP, and eight years in Assam. The spread also varies by husband and wife age, with the age gap being larger for older husbands.
 
@@ -23,7 +23,7 @@ We exploit the fact that for married women, electoral rolls have the husband's n
 [gapage.py](finding-couples/gapage.py) takes the path to CSV (output from pdfparser), maximum Levenshtein string distance (if 0, then only exact matching is done) and outputs a CSV with the following fields: ```household_id, wife_id, wife_name, wife_age, husband_name, husband_id, husband name, husband_age, state, electoral_roll_year``` Each couple is a separate row.
 
 **Functionality**
-For each state file, within each household (house_no), the script uses the household_no as key to find all members in a house and then finds all cases where `husband_name == elector_name`.
+For each state file, within each household (house_no), the script uses the household_no as the key for finding all members in a house and then finds all cases where `husband_name == elector_name`.
 
 If there is more than one match, it writes `id` to the file `state_name_more_than_one_match.csv` and writes multiple rows to the final CSV--one for each husband match. E.g., say there is an elector named Sita whose husband's name is listed as Ram. And say in the household, there are two electors named Ram, one with id = 1234 and another with id = 2345. In this case, the script will add two rows to the final output: `..., sita, 1234, ram,...` and `..., sita, 2345, ram, ...`.
 
